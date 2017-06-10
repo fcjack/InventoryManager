@@ -9,29 +9,33 @@ class ProductRepository(GenericRepository):
         result = cur.fetchall()
         products = []
         for product in result:
-            products.append(Product(product[0], product[1], product[2], product[3]))
+            products.append(Product(_id=product[0], name=product[1],
+                                    description=product[2],
+                                    bar_code=product[3],
+                                    qtd=product[4]))
         return products
 
     def add(self, product):
         connection = self.get_connection()
         connection.execute(
-            "INSERT INTO product VALUES ({0}, {1}, {2}, {3})".format(product.name, product.description,
-                                                                     product.bar_code, product.qtd))
+            "INSERT INTO product(name, description, bar_code, qtd) "
+            "VALUES (?, ?, ?, ?)",
+            [product.name, product.description, product.bar_code, product.qtd])
         connection.commit()
         connection.close()
 
     def update(self, product):
         connection = self.get_connection()
         connection.execute(
-            "UPDATE product set description = {1}, bar_code={2}, qtd = {3} WHERE name = {0}".format(product.name,
-                                                                                                    product.description,
-                                                                                                    product.bar_code,
-                                                                                                    product.qtd))
+            "UPDATE product SET name=?, description = ?, bar_code=?, qtd = ? WHERE id = ?", [product.name,
+                                                                                             product.description,
+                                                                                             product.bar_code,
+                                                                                             product.qtd, product.id])
         connection.commit()
         connection.close()
 
-    def remove(self, product_name):
+    def remove(self, product_id):
         connection = self.get_connection()
-        connection.execute("DELETE FROM product WHERE name = {0}".format(product_name))
+        connection.execute("DELETE FROM product WHERE id = ?", [product_id])
         connection.commit()
         connection.close()

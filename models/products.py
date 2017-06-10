@@ -1,5 +1,6 @@
 class Product:
-    def __init__(self, name, description, bar_code, qtd):
+    def __init__(self, name, description, bar_code, qtd, _id=None):
+        self.id = _id
         self.bar_code = bar_code
         self.name = name
         self.description = description
