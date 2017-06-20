@@ -3,8 +3,9 @@ import sqlite3
 import unittest
 
 from migrations.migration_executor import MigrationExecutor
-from models.products import Product
 from services.product_service import ProductService
+
+from models.products import Product
 
 
 class ProductServiceTest(unittest.TestCase):

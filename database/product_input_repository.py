@@ -1,4 +1,4 @@
-from database.generic_repository import GenericRepository
+from database import GenericRepository
 
 
 class ProductInputRepository(GenericRepository):
